@@ -8,7 +8,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Data
 public class PlanetaEntity extends BaseEntity{
     private String nombre;
-    private Long poblacion;
+    private Integer poblacion;
     private Long diametro;
 
     @PodamExclude
