@@ -66,7 +66,7 @@ public class PlanetaSistemaSolarServiceTest {
             sistemaSolar.setNombre("nombre");
             sistemaSolar.setRegion("CORE");
             sistemaSolar.setRatioFuerza(0.3);
-            sistemaSolar.setNumStormtroopers(4);
+            sistemaSolar.setNumStormtroopers(60);
             entityManager.persist(sistemaSolar);
             sistemas.add(sistemaSolar);
         }
@@ -92,13 +92,23 @@ public class PlanetaSistemaSolarServiceTest {
             
         }
 
-    
 
     @Test
-        void testAddInvalidSistemaSolar() throws IllegalOperationException, EntityNotFoundException{
-            PlanetaEntity planeta = planetas.get(0);
-            assertThrows(EntityNotFoundException.class, ()->{
-                planetaSistemaSolarService.addSistemaSolar(planeta.getId(), 22L);
+        void testAddInvalidRatio() throws IllegalOperationException, EntityNotFoundException{
+            SistemaSolar sistemaSolar = sistemas.get(0);
+            PlanetaEntity planeta1 = planetas.get(0);
+            
+            planetaSistemaSolarService.addSistemaSolar(planeta1.getId(), sistemaSolar.getId());
+            PlanetaEntity planeta2 = planetas.get(0);
+            planetaSistemaSolarService.addSistemaSolar(planeta2.getId(), sistemaSolar.getId());
+
+
+            PlanetaEntity planeta = factory.manufacturePojo(PlanetaEntity.class);
+            planeta.setNombre("nombreI");
+            planeta.setPoblacion(5000);
+            planeta.setDiametro(22L);
+            assertThrows(IllegalOperationException.class, ()->{
+                planetaSistemaSolarService.addSistemaSolar(planeta.getId(), sistemaSolar.getId());
             });
             
         }
